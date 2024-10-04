@@ -19,6 +19,8 @@ impl DockerComposeCommandTrait for DockerComposeCommand {
             .args(args)
             .output()?;
 
+        println!("{:?}", output);
+        
         if output.status.success() {
             Ok(String::from_utf8_lossy(&output.stdout).to_string())
         } else {
