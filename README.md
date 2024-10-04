@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-# compose-deploy
-compose-deploy
-
-CMD
-{BUILD_FILE_NAME} --file {docker-compose_FILE_NAME}
-=======
 # Compose-Deploy
 
 ## 소개
@@ -41,4 +34,3 @@ Compose-Deploy를 실행하려면 다음 명령어를 사용하세요:
 ## 문제 해결
 
 스크립트 실행 중 문제가 발생하면 로그 파일을 확인하거나, 개발자에게 문의하세요.
->>>>>>> 0d57697c5aaea1a9279283b41aa83946aba09ba1
