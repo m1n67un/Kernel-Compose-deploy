@@ -20,7 +20,7 @@ impl DockerComposeCommandTrait for DockerComposeCommand {
             .output()?;
 
         println!("{:?}", output);
-        
+
         if output.status.success() {
             Ok(String::from_utf8_lossy(&output.stdout).to_string())
         } else {
@@ -31,28 +31,48 @@ impl DockerComposeCommandTrait for DockerComposeCommand {
         }
     }
 
-    fn compose_down (current_dir: &PathBuf) -> Result<(), Box<dyn std::error::Error>> {
+    fn compose_down (current_dir: &PathBuf) -> Result<String, std::io::Error> {
         let args = Args::parse();
         let file_name = args.file.as_str();
-        DockerComposeCommand::run(&[
-            KeyOption::F,
-            current_dir.join(file_name).to_str().unwrap(),
-            KeyCommand::DOWN,
-            KeyDBOption::RMI,
-            KeyCommand::ALL
-        ])?;
-        Ok(())
+        let output = Command::new(KeyCommand::DOCKER_COMPOSE)
+            .arg(KeyOption::F)
+            .arg(current_dir.join(file_name).to_str().unwrap())
+            .arg(KeyCommand::DOWN)
+            .arg(KeyDBOption::RMI)
+            .arg(KeyCommand::ALL)
+            .output()?;
+
+        println!("{:?}", output);
+
+        if output.status.success() {
+            Ok(String::from_utf8_lossy(&output.stdout).to_string())
+        } else {
+            Err(std::io::Error::new(
+                std::io::ErrorKind::Other,
+                String::from_utf8_lossy(&output.stderr),
+            ))
+        }
     }
 
-    fn compose_up (current_dir: &PathBuf) -> Result<(), Box<dyn std::error::Error>> {
+    fn compose_up (current_dir: &PathBuf) -> Result<String, std::io::Error> {
         let args = Args::parse();
         let file_name = args.file.as_str();
-        DockerComposeCommand::run(&[
-            KeyOption::F,
-            current_dir.join(file_name).to_str().unwrap(),
-            KeyCommand::UP,
-            KeyOption::D
-        ])?;
-        Ok(())
+        let output = Command::new(KeyCommand::DOCKER_COMPOSE)
+            .arg(KeyOption::F)
+            .arg(current_dir.join(file_name).to_str().unwrap())
+            .arg(KeyCommand::UP)
+            .arg(KeyOption::D)
+            .output()?;
+
+        println!("{:?}", output);
+
+        if output.status.success() {
+            Ok(String::from_utf8_lossy(&output.stdout).to_string())
+        } else {
+            Err(std::io::Error::new(
+                std::io::ErrorKind::Other,
+                String::from_utf8_lossy(&output.stderr),
+            ))
+        }
     }
 }
