@@ -31,48 +31,60 @@ impl DockerComposeCommandTrait for DockerComposeCommand {
         }
     }
 
-    fn compose_down (current_dir: &PathBuf) -> Result<String, std::io::Error> {
+    fn compose_down (current_dir: &PathBuf) {
         let args = Args::parse();
         let file_name = args.file.as_str();
-        let output = Command::new(KeyCommand::DOCKER_COMPOSE)
-            .arg(KeyOption::F)
-            .arg(current_dir.join(file_name).to_str().unwrap())
-            .arg(KeyCommand::DOWN)
-            .arg(KeyDBOption::RMI)
-            .arg(KeyCommand::ALL)
-            .output()?;
-
-        println!("{:?}", output);
+        // let output = Command::new(KeyCommand::DOCKER_COMPOSE)
+        //     .arg(KeyOption::F)
+        //     .arg(current_dir.join(file_name).to_str().unwrap())
+        //     .arg(KeyCommand::DOWN)
+        //     .arg(KeyDBOption::RMI)
+        //     .arg(KeyCommand::ALL)
+        //     .output()?;
+        
+        let output = Command::new("docker-compose")
+        .arg("-f")
+        .arg(current_dir.join(file_name).to_str().unwrap())
+        .arg("down")
+        .arg("--rmi")
+        .arg("all")
+        .output()
+        .expect("Failed to execute docker-compose command");
 
         if output.status.success() {
-            Ok(String::from_utf8_lossy(&output.stdout).to_string())
+            println!("Docker Compose command executed successfully");
+            println!("Output: {}", String::from_utf8_lossy(&output.stdout));
         } else {
-            Err(std::io::Error::new(
-                std::io::ErrorKind::Other,
-                String::from_utf8_lossy(&output.stderr),
-            ))
+            eprintln!("Docker Compose command failed");
+            eprintln!("Error: {}", String::from_utf8_lossy(&output.stderr));
         }
     }
 
-    fn compose_up (current_dir: &PathBuf) -> Result<String, std::io::Error> {
+    fn compose_up (current_dir: &PathBuf) {
         let args = Args::parse();
         let file_name = args.file.as_str();
         let output = Command::new(KeyCommand::DOCKER_COMPOSE)
-            .arg(KeyOption::F)
-            .arg(current_dir.join(file_name).to_str().unwrap())
-            .arg(KeyCommand::UP)
-            .arg(KeyOption::D)
-            .output()?;
+        .arg(KeyOption::F)
+        .arg(current_dir.join(file_name).to_str().unwrap())
+        .arg(KeyCommand::UP)
+        .arg(KeyOption::D)
+        .output()
+        .expect("Failed to execute docker-compose command");
 
-        println!("{:?}", output);
+        let output = Command::new("docker-compose")
+        .arg("-f")
+        .arg(current_dir.join(file_name).to_str().unwrap())
+        .arg("up")
+        .arg("-d")
+        .output()
+        .expect("Failed to execute docker-compose command");
 
         if output.status.success() {
-            Ok(String::from_utf8_lossy(&output.stdout).to_string())
+            println!("Docker Compose command executed successfully");
+            println!("Output: {}", String::from_utf8_lossy(&output.stdout));
         } else {
-            Err(std::io::Error::new(
-                std::io::ErrorKind::Other,
-                String::from_utf8_lossy(&output.stderr),
-            ))
+            eprintln!("Docker Compose command failed");
+            eprintln!("Error: {}", String::from_utf8_lossy(&output.stderr));
         }
     }
 }
