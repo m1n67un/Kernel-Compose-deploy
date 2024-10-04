@@ -34,13 +34,6 @@ impl DockerComposeCommandTrait for DockerComposeCommand {
     fn compose_down (current_dir: &PathBuf) {
         let args = Args::parse();
         let file_name = args.file.as_str();
-        // let output = Command::new(KeyCommand::DOCKER_COMPOSE)
-        //     .arg(KeyOption::F)
-        //     .arg(current_dir.join(file_name).to_str().unwrap())
-        //     .arg(KeyCommand::DOWN)
-        //     .arg(KeyDBOption::RMI)
-        //     .arg(KeyCommand::ALL)
-        //     .output()?;
         
         let output = Command::new("docker-compose")
         .arg("-f")
@@ -63,14 +56,6 @@ impl DockerComposeCommandTrait for DockerComposeCommand {
     fn compose_up (current_dir: &PathBuf) {
         let args = Args::parse();
         let file_name = args.file.as_str();
-        let output = Command::new(KeyCommand::DOCKER_COMPOSE)
-        .arg(KeyOption::F)
-        .arg(current_dir.join(file_name).to_str().unwrap())
-        .arg(KeyCommand::UP)
-        .arg(KeyOption::D)
-        .output()
-        .expect("Failed to execute docker-compose command");
-
         let output = Command::new("docker-compose")
         .arg("-f")
         .arg(current_dir.join(file_name).to_str().unwrap())
