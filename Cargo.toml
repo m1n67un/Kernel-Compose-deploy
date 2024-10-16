@@ -1,5 +1,5 @@
 [package]
-name = "compose-deploy"
+name = "Kernel-Compose-deploy"
 version = "0.1.0"
 edition = "2021"
 
