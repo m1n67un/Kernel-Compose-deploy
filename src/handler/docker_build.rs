@@ -10,6 +10,7 @@ use crate::interface::{
 };
 
 pub fn build() -> Result<(), Box<dyn std::error::Error>> {
+    let _ = DockerCommand::prune();
     let current_dir = env::current_dir()?;
     let _ = DockerComposeCommand::compose_down(&current_dir);
     let _ = DockerCommand::images();

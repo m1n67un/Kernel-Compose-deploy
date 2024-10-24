@@ -52,4 +52,9 @@ impl DockerCommandTrait for DockerCommand {
         DockerCommand::run(&[KeyCommand::IMAGES])?;
         Ok(())
     }
+    
+    fn prune() -> Result<(), Box<dyn std::error::Error>> {
+        DockerCommand::run(&["system", "prune", "-a", "-f"])?;
+        Ok(())
+    }
 }

@@ -8,4 +8,5 @@ pub trait DockerCommandTrait {
     fn list() -> Result<(), Box<dyn std::error::Error>>;
     fn stop() -> Result<(), Box<dyn std::error::Error>>;
     fn images() -> Result<(), Box<dyn std::error::Error>>;
+    fn prune() -> Result<(), Box<dyn std::error::Error>>;
 }
